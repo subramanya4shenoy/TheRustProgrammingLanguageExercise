@@ -1,40 +1,44 @@
-const DEFAULT_START: &str = "On the ";
-const DEFAULT_END: &str = " day of Christmas my true love sent to me:";
+use std::io;
 
-const GIFTS: [&str; 12] = [
-    "a Partridge in a Pear Tree",
-    "Two Turtle Doves",
-    "Three French Hens",
-    "Four Calling Birds",
-    "Five Golden Rings",
-    "Six Geese a Laying",
-    "Seven Swans a Swimming",
-    "Eight Maids a Milking",
-    "Nine Ladies Dancing",
-    "Ten Lords a Leaping",
-    "Eleven Pipers Piping",
-    "Twelve Drummers Drumming",
-];
+const WELCOME_MSG:&str = "Welcome to fib genrator";
+const INSTRUCTION_MSG:&str = "Enter the number of Fib numbers required";
 
 fn main() {
-    for i in 1usize..=12 {
-        println!("{}{}{}", DEFAULT_START, ordinal(i), DEFAULT_END);
-        for j in (1usize..=i).rev() {
-            if i != 1 && j == 1 {
-                print!("And ");
-            }
-            println!("{}", GIFTS[j - 1]);
+    println!("{}", WELCOME_MSG);
+    println!("{}", INSTRUCTION_MSG);
+
+    let mut count_str: String = String::new();
+    
+    io::stdin()
+        .read_line(&mut  count_str)
+        .expect("Not a valid number");
+
+    let count_num: usize = match count_str.trim().parse() {
+        Ok(num) => { num },
+        Err(_) => { 
+            println!("Please enter a valid number");
+            return;
         }
-        println!(); // Adds an empty line for better readability
-    }
+    };
+
+    fibonacci_number_gen(count_num);
+
 }
 
-fn ordinal(num: usize) -> String {
-    let suffix = match num {
-        1 => "st",
-        2 => "nd",
-        3 => "rd",
-        _ => "th",
-    };
-    format!("{}{}", num, suffix)
-}
+
+fn fibonacci_number_gen(num:usize) {
+    match num {
+        0 => return,
+        1 => println!("1"),
+        _ => {
+            let mut prev: usize = 0;
+            let mut current: usize = 1;
+            for _ in 1..=num {
+                println!("{current}");
+                let new = prev + current;
+                prev = current;
+                current = new;
+            }
+        }   
+    }
+}% 
