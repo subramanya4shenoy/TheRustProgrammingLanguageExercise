@@ -1,5 +1,5 @@
 use std::io;
-use str::collection::Hashmap;
+use std::collections::HashMap;
 
 fn main() {
     // ask user if they want to add info or retrieve info?
@@ -7,7 +7,7 @@ fn main() {
     //collect user input for entry
     let mut user_cmd: String = String::new();
 
-    let mut db: Hashmap: Hashmap::new();
+    let mut db: HashMap<String, String> = HashMap::new(); 
 
     println!("Hello!");
     println!("What do you want to do today?");
@@ -20,6 +20,7 @@ fn main() {
         // Convert String to &str for matching
         "1" => {
             println!("Please enter department name");
+            println!("{:#?}", db);
         } // Match against string literals
         "2" => {
             println!("Please enter new entry");
@@ -27,7 +28,9 @@ fn main() {
                 .read_line(&mut user_cmd)
                 .expect("Enter valid texts");
             let (name, department, operation) = extract_info(user_cmd.trim());
-            println!("{},{},{}", name, department, operation);
+            // println!("{},{},{}", name, department, operation);
+            db.insert(name, department);
+            println!("{:#?}", db);
             // update our db
         }
         _ => {
