@@ -2,41 +2,54 @@ use std::io;
 use std::collections::HashMap;
 
 fn main() {
-    // ask user if they want to add info or retrieve info?
-    let mut user_choice: String = String::new();
-    //collect user input for entry
-    let mut user_cmd: String = String::new();
 
     let mut db: HashMap<String, String> = HashMap::new(); 
 
     println!("Hello!");
     println!("What do you want to do today?");
-    println!("1. Do you want to retrive data?");
-    println!("2. Do you want to add data? ");
+    
+    loop {
+        // ask user if they want to add info or retrieve info?
+        let mut user_choice: String = String::new();
+        //collect user input for entry
+        let mut user_cmd: String = String::new();
 
-    io::stdin().read_line(&mut user_choice);
+        println!("1. Do you want to retrive data?");
+        println!("2. Do you want to add data? ");
+        println!("3. Exist system");
+        
+        io::stdin().read_line(&mut user_choice);
 
-    match user_choice.as_str().trim() {
-        // Convert String to &str for matching
-        "1" => {
-            println!("Please enter department name");
-            println!("{:#?}", db);
-        } // Match against string literals
-        "2" => {
-            println!("Please enter new entry");
-            io::stdin()
-                .read_line(&mut user_cmd)
-                .expect("Enter valid texts");
-            let (name, department, operation) = extract_info(user_cmd.trim());
-            // println!("{},{},{}", name, department, operation);
-            db.insert(name, department);
-            println!("{:#?}", db);
-            // update our db
-        }
-        _ => {
-            println!("Enter a valid choice!");
+        match user_choice.as_str().trim() {
+            // Convert String to &str for matching
+            "1" => {
+                println!("Here is the whole db");
+                println!("{:#?}", db);
+            } // Match against string literals
+            "2" => {
+                println!("Please enter new entry");
+                io::stdin()
+                    .read_line(&mut user_cmd)
+                    .expect("Enter valid texts");
+                let (name, department, operation) = extract_info(user_cmd.trim());
+                // println!("{},{},{}", name, department, operation);
+                if operation == "ADD" {
+                    db.insert(name, department);
+                } else if operation == "REMOVE" {
+                    db.remove(&name);
+                }
+                println!("{:#?}", db);
+            }
+            "3" => {
+                println!("have a nice day!!");
+                break;
+            }
+            _ => {
+                println!("Enter a valid choice!");
+            }
         }
     }
+
 
 }
 
