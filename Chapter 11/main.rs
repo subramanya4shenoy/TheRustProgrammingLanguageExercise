@@ -42,4 +42,22 @@ mod tests {
         test_panic();
     }
 
-}
+    #[test]
+    fn run_only_this() {
+        let a = 2;
+        assert_eq!(a, 2); // run this with cargo test run_only_this
+    }
+
+    #[test]
+    fn and_this() {
+        let b = 4;
+        assert_eq!(b, 4); // used for running multiple tests cargo test run _this 
+    }
+
+    #[test]
+    #[ignore]
+    fn ignore_this() {
+        let c = 10;
+        assert_eq!(c, 10); // this test gets ignored. we can run only ignored with cargo test -- --ignored
+    }
+} 
